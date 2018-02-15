@@ -1,2 +1,1 @@
-# Random-Data-Generator-for-an-Education-Database
-Written in Java
+The program generates CSV files which conform to the given SQL schema of the Education enterprise database. It was made sure that the program generated files of atleast 5GB in size as it was the project's requirement. Later the generated data was loaded into the SQL database and the database was queried. 
