@@ -1,0 +1,11 @@
+CREATE TABLE Department (department_name CHAR(3), building INT(2), budget INT(6), PRIMARY KEY(department_name));
+CREATE TABLE Classroom (building INT(2), room_number INT(2), capacity INT(3), PRIMARY KEY(building,room_number));
+CREATE TABLE Time_slot (ID INT(2), day CHAR(1), start_time TIME, end_time TIME, PRIMARY KEY(ID));
+CREATE TABLE Student (s_id INT(10), student_name VARCHAR(32), department_name CHAR(3), tot_cred INT(3), PRIMARY KEY(s_id));
+CREATE TABLE Instructor (i_id INT(10), name VARCHAR(32), department_name CHAR(3), salary DECIMAL(8,2) UNSIGNED, PRIMARY KEY(i_id));
+CREATE TABLE Advisor (s_id INT(10), i_id INT(10), PRIMARY KEY(s_id,i_id),FOREIGN KEY(s_id) REFERENCES Student(s_id), FOREIGN KEY(i_id) REFERENCES Instructor(i_id));
+CREATE TABLE Course (course_id INT(5), title VARCHAR(32), department_name CHAR(3), credits INT(1), PRIMARY KEY(course_id));
+CREATE TABLE Prereq (course_id INT(5), prereq_id INT(5), FOREIGN KEY(course_id) REFERENCES Course(course_id), PRIMARY KEY(course_id, prereq_id));
+CREATE TABLE Section (course_id INT(5),sec_id INT(2),semester VARCHAR(7),years CHAR(4), building INT(2), room_number INT(2), ID INT(2), PRIMARY KEY(course_id,sec_id,semester,years), FOREIGN KEY(course_id) REFERENCES Course(course_id), FOREIGN KEY(building,room_number) REFERENCES Classroom(building,room_number), FOREIGN KEY(ID) REFERENCES Time_slot(ID));
+CREATE TABLE Teaches (i_id INT(10),course_id INT(5), sec_id INT(2), semester VARCHAR(7), years CHAR(4), PRIMARY KEY(i_id,course_id,sec_id,semester,years), FOREIGN KEY(i_id) REFERENCES Instructor(i_id), FOREIGN KEY(course_id,sec_id,semester,years) REFERENCES Section(course_id,sec_id,semester,years));
+CREATE TABLE Takes (psuedo_index INT(10), s_id INT(10), course_id INT(5), sec_id INT(2), semester VARCHAR(7), years CHAR(4),grade CHAR(1), PRIMARY KEY(psuedo_index,s_id,course_id, sec_id,semester,years), FOREIGN KEY(s_id) REFERENCES Student(s_id), FOREIGN KEY(course_id,sec_id,semester,years) REFERENCES Section(course_id,sec_id,semester,years));
